@@ -1,0 +1,36 @@
+version: '2'
+services:
+  db:
+    image: mariadb
+    volumes:
+      - "./.data/db:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysupersecretpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: mydb
+      MYSQL_PASSWORD: mydbsecretpassword
+  app:
+    depends_on:
+      - db
+    build: .
+    volumes:
+      - ./src:/var/www/html
+    links:
+      - db
+    restart: always
+    environment:
+      DATABASE_URL: mysql://mydb:mydbsecretpassword@db:3306/clink
+  web:
+    image: nginx:alpine
+    volumes:
+      - "./nginx/ssl:/etc/ssl"
+      - "./nginx/conf:/etc/nginx/conf.d"
+    restart: always
+    ports:
+      - "8000:80"
+      - "8080:443"
+    links:
+      - app
+    depends_on:
+      - app
