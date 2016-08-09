@@ -3,7 +3,7 @@
 A minimal docker image for running wordpress.
 
 - The image is based off the `alpine php 7` image
-- It includes `bash`, `vim` and `[wp-cli](http://wp-cli.org/)`
+- It includes `bash`, `vim` and [`wp-cli`](http://wp-cli.org/)
 - I like to keep the full wordpress site in vesion control, that only works
   if you push all the user uploads onto something like `S3` using something like `W3-TotalCache`
 
